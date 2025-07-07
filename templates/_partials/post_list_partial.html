@@ -1,0 +1,13 @@
+{% for post in object_list %}
+<article class="mb-4 p-4 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+  <p class="text-sm text-gray-500">By {{ post.author }} on {{ post.created_at|date:"M d, Y" }}</p>
+  <p>{{ post.content|truncatechars:150 }}</p>
+  <p class="mt-2 text-xs">{% for cat in post.categories.all %}<span class="mr-1 bg-gray-200 px-1">{{ cat.name }}</span>{% endfor %}</p>
+</article>
+{% empty %}
+<p>No posts found.</p>
+{% endfor %}
+<div class="mt-4">
+  {% include "_partials/pagination.html" %}
+</div>

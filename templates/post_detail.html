@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ object.title }} – Blog{% endblock %}
+{% block content %}
+<article class="bg-white p-6 rounded shadow">
+  <h1 class="text-3xl font-bold mb-2">{{ object.title }}</h1>
+  <p class="text-gray-500 mb-4">By {{ object.author }} on {{ object.created_at|date:"M d, Y" }}</p>
+  <div class="prose max-w-none">{{ object.content|linebreaks }}</div>
+  {% if user == object.author %}
+  <div class="mt-4 space-x-2">
+    <a href="{% url 'post_edit' object.pk %}" class="underline text-indigo-600">Edit</a>
+    <a href="{% url 'post_delete' object.pk %}" class="underline text-red-600">Delete</a>
+  </div>
+  {% endif %}
+</article>
+<section class="mt-8">
+  <h2 class="text-xl font-semibold mb-2">Comments</h2>
+  {% for comment in object.comments.all %}
+  <div class="mb-4 p-2 border rounded">
+    <p class="text-sm text-gray-700">{{ comment.body }}</p>
+    <p class="text-xs text-gray-400">{% if comment.user %}
+            {{ comment.user }}
+          {% else %}
+            {{ comment.author_name }}
+          {% endif %} – {{ comment.created_at|timesince }} ago</p>
+  </div>
+  {% empty %}
+  <p>No comments yet.</p>
+  {% endfor %}
+  {% if user.is_authenticated %}
+  <form action="{% url 'add_comment' object.pk %}" method="post" class="mt-4">
+    {% csrf_token %}
+    {{ comment_form.body|as_crispy_field }}
+    <button class="bg-indigo-600 text-white px-4 py-1 mt-2">Add Comment</button>
+  </form>
+  {% else %}
+  <p class="mt-4">Please <a href="/accounts/login/" class="underline">log in</a> to comment.</p>
+  {% endif %}
+</section>
+{% endblock %}

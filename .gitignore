@@ -1,0 +1,17 @@
+# created by virtualenv automatically
+env/
+*.sqlite3
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+Lib/
+Scripts/
+.env
+/media/
+/staticfiles/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

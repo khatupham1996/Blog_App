@@ -1,0 +1,36 @@
+{% if is_paginated %}
+  <nav aria-label="Page navigation" class="flex items-center justify-between mt-4">
+    <div>
+      <span class="text-sm text-gray-600">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    </div>
+    <ul class="inline-flex -space-x-px text-sm">
+      {% if page_obj.has_previous %}
+        <li>
+          <a hx-get="?page={{ page_obj.previous_page_number }}{{ request.GET.urlencode|cut:'page='|yesno:',&' }}"
+             hx-target="#post-list" hx-swap="innerHTML"
+             class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+        </li>
+      {% endif %}
+      {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li>
+            <span class="px-3 py-2 leading-tight text-white bg-indigo-600 border border-gray-300">{{ i }}</span>
+          </li>
+        {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+          <li>
+            <a hx-get="?page={{ i }}{{ request.GET.urlencode|cut:'page='|yesno:',&' }}"
+               hx-target="#post-list" hx-swap="innerHTML"
+               class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ i }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <li>
+          <a hx-get="?page={{ page_obj.next_page_number }}{{ request.GET.urlencode|cut:'page='|yesno:',&' }}"
+             hx-target="#post-list" hx-swap="innerHTML"
+             class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Latest Posts – DjangoBlog{% endblock %}
+{% block content %}
+  <!-- Hero Banner -->
+  <section class="bg-indigo-600 text-white rounded-lg p-8 mb-8 flex flex-col md:flex-row items-center gap-6 shadow-lg">
+      <div class="flex-1">
+          <h1 class="text-4xl font-extrabold mb-2 tracking-tight">Welcome to <span class="underline decoration-white">Journey Blog</span></h1>
+          <p class="opacity-90 max-w-prose">Share your ideas, read inspiring stories, and join a vibrant community of writers &amp; readers.</p>
+      </div>
+      <img src="{% static 'img/logo.png' %}" alt="Blog illustration" class="w-48 h-70" />
+  </section>
+
+  <!-- Filter & Search -->
+  <form id="search-form"
+        hx-get=""
+        hx-target="#post-list"
+        hx-swap="innerHTML"
+        class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-2">
+      <input name="q"
+             value="{{ request.GET.q }}"
+             placeholder="Search title or content…"
+             class="border p-2 rounded col-span-2 md:col-span-2 focus:ring-indigo-600 focus:border-indigo-600" />
+
+      <select name="cat" class="border p-2 rounded focus:ring-indigo-600 focus:border-indigo-600">
+          <option value="">All Categories</option>
+          {% for c in all_categories %}
+              <option value="{{ c.id }}" {% if request.GET.cat|default:'' == c.id|stringformat:'s' %}selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+      </select>
+
+      <button class="bg-indigo-600 text-white rounded px-4 py-2 hover:bg-indigo-700 transition">Apply</button>
+  </form>
+
+  <!-- Posts List -->
+  <div id="post-list" class="space-y-6">
+      {% include "_partials/post_list_partial.html" %}
+  </div>
+{% endblock %}
