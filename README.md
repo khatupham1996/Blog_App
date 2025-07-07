@@ -25,3 +25,4 @@ Features
 4. Comments: Allow visitors or registered users to leave comments on posts.
 5. Dynamic Interface: Use HTMX to filter, search, and paginate posts without full-page reloads.
 6. Responsive Design: Styled with Tailwind CSS via Crispy Tailwind for a mobile-first, responsive layout.
+<img width="1114" alt="image" src="https://github.com/user-attachments/assets/aa1d988f-0eba-4a38-a901-a8f43b323543" />
